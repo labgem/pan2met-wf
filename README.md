@@ -9,11 +9,11 @@
 [![run with conda](http://img.shields.io/badge/run%20with-conda-3EB049?labelColor=000000&logo=anaconda)](https://docs.conda.io/en/latest/)
 [![run with docker](https://img.shields.io/badge/run%20with-docker-0db7ed?labelColor=000000&logo=docker)](https://www.docker.com/)
 [![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg?labelColor=000000)](https://sylabs.io/docs/)
-[![Launch on Seqera Platform](https://img.shields.io/badge/Launch%20%F0%9F%9A%80-Seqera%20Platform-%234256e7)](https://cloud.seqera.io/launch?pipeline=https://github.com/labgem/pan2met-wf)
 
 ## Introduction
 
-**labgem/pan2met-wf** is a bioinformatics pipeline that ...
+**labgem/pan2met-wf** is a bioinformatics pipeline that predicts metabolic network of procaryotes at pangenome scale.
+It takes, either a set of genomes, a [PPanGGOLiN](https://github.com/labgem/PPanGGOLiN) pangenome, or directly a proteome in FASTA format and predict what metabolic pathways forms the metabolism of the organism.
 
 <!-- TODO nf-core:
    Complete this sentence with a 2-3 sentence summary of what types of data the pipeline ingests, a brief overview of the
@@ -24,6 +24,15 @@
 <!-- TODO nf-core: Include a figure that guides the user through the major workflow steps. Many nf-core
      workflows use the "tube map" design for that. See https://nf-co.re/docs/guidelines/graphic_design/workflow_diagrams#examples for examples.   -->
 <!-- TODO nf-core: Fill in short bullet-pointed list of the default steps in the pipeline -->
+
+A typical workflow boils down into these main steps:
+
+- Prepare a PPanGGOLiN pangenome ([PPanGGOLiN](https://github.com/labgem/PPanGGOLiN))
+- Identify reference proteins for gene families ([PPanGGOLiN](https://github.com/labgem/PPanGGOLiN))
+- Align MetaCyc proteins with the gene families reference proteins ([diamond blastp](https://github.com/bbuchfink/diamond)); associate the found homolog proteins with MetaCyc reaction identifiers.
+- Align EcoCyc proteins with the gene families reference proteins ([diamond blastp](https://github.com/bbuchfink/diamond)); associate the found homolog proteins with MetaCyc reaction identifiers.
+- Scan the gene families reference proteins for KEGG KOFam ([KOFamScan](https://github.com/takaram/kofam_scan)); associate the KEGG KO identified, with MetaCyc reaction identifiers, or, if none found, EC-numbers.
+- Merge EcoCyc-, MetaCyc- and KOFam-based MetaCyc reaction identifiers annotations. Keep at first, the EcoCyc-based annotation. If none found, keep the MetaCyc-based annotation. Again, if none found, keep the MetaCyc reaction identifiers obtained through KOFamScan. In last resort, if no MetaCyc reaction identifier could be found, and there exist a EC-number associated with the protein, keep this EC-number.7
 
 ## Usage
 
@@ -45,6 +54,7 @@ CONTROL_REP1,AEG588A1_S1_L002_R1_001.fastq.gz,AEG588A1_S1_L002_R2_001.fastq.gz
 Each row represents a fastq file (single-end) or a pair of fastq files (paired end).
 
 -->
+
 
 Now, you can run the pipeline using:
 

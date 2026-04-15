@@ -10,24 +10,120 @@
             "type": "object",
             "fa_icon": "fas fa-terminal",
             "description": "Define where the pipeline should find input data and save output data.",
-            "required": ["input", "outdir"],
+            "required": ["outdir", "annotations"],
             "properties": {
-                "input": {
+                "annotations": {
+                    "type": "string",
+                    "format": "text",
+                    "pattern": "^(ecocyc|metacyc|kofam|ncbifam)+(,(ecocyc|metacyc|kofam|ncbifam)+)*$",
+                    "description": "Selection of the annotation method to run to obtain Gene-Protein-Reaction associations",
+                    "help_text": "You can select any subset of { ecocyc,metacyc,kofam,ncbifam } source of annotation for GPR. Provide a comma separated list.",
+                    "fa_icon": "fas fa-gear"
+                },
+                "genomes": {
                     "type": "string",
                     "format": "file-path",
                     "exists": true,
-                    "schema": "assets/schema_input.json",
-                    "mimetype": "text/csv",
-                    "pattern": "^\\S+\\.csv$",
-                    "description": "Path to comma-separated file containing information about the samples in the experiment.",
-                    "help_text": "You will need to create a design file with information about the samples in your experiment before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row.",
-                    "fa_icon": "fas fa-file-csv"
+                    "mimetype": "text/tsv",
+                    "pattern": "^\\S+\\.(tsv)$",
+                    "description": "Path to TSV file with two columns: Column 1: genome name, Column 2: path to the corresponding genome file, for PPanGGOLiN workflow.",
+                    "help_text": "",
+                    "fa_icon": "fas fa-file"
+                },
+                "pangenome": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "mimetype": "application/x-hdf5",
+                    "pattern": "^\\S+\\.h5$",
+                    "description": "Path to a HDF5 file containing PPanGGOLiN pangenome.",
+                    "help_text": "You will need to create a pangenome file with PPanGGOLiN or download it from PanGBank.",
+                    "fa_icon": "fas fa-file"
+                },
+                "proteome": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "mimetype": "text/fasta",
+                    "pattern": "^\\S+\\.(fasta|faa|fsa|faa)$",
+                    "description": "Path to protein sequences in FASTA format.",
+                    "help_text": "Do not provide a --pangenome nor --genomes argument in this case.",
+                    "fa_icon": "fas fa-file"
                 },
                 "outdir": {
                     "type": "string",
                     "format": "directory-path",
                     "description": "The output directory where the results will be saved. You have to use absolute paths to storage on Cloud infrastructure.",
                     "fa_icon": "fas fa-folder-open"
+                },
+
+                "metacyc_proteins": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "mimetype": "text/fasta",
+                    "pattern": "^\\S+\\.(fasta|faa|fa|fsa)$",
+                    "description": "Path to FASTA file with reference proteins from MetaCyc.",
+                    "help_text": "FASTA file for reference MetaCyc proteins",
+                    "fa_icon": "fas fa-file"
+                },
+                "ecocyc_proteins": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "mimetype": "text/fasta",
+                    "pattern": "^\\S+\\.(fasta|faa|fa|fsa)$",
+                    "description": "Path to FASTA file with reference proteins from EcoCyc.",
+                    "help_text": "FASTA file for reference MetaCyc proteins",
+                    "fa_icon": "fas fa-file"
+                },
+                "metacyc_coverage_threshold": {
+                    "type": "number",
+                    "description": "Diamond blastp against MetaCyc reference protein sequences coverage threshold"
+                },
+                "metacyc_identity_threshold": {
+                    "type": "number",
+                    "description": "Diamond blastp against MetaCyc reference protein sequence identity threshold"
+                },
+                "ecocyc_coverage_threshold": {
+                    "type": "number",
+                    "description": "Diamond blastp against MetaCyc reference protein sequences coverage threshold"
+                },
+                "ecocyc_identity_threshold": {
+                    "type": "number",
+                    "description": "Diamond blastp against MetaCyc reference protein sequence identity threshold"
+                },
+                "ecocyc_monomers_to_metacyc_reactions": {
+                    "type": "string",
+                    "format": "file-path",
+                    "mimetype": "text/tsv",
+                    "exists": true,
+                    "pattern": "^\\S+\\.(tsv)$",
+                    "description": "Crossref table from EcoCyc monomer identifier to MetaCyc reaction identifiers"
+                },
+                "metacyc_monomers_to_reactions": {
+                    "type": "string",
+                    "format": "file-path",
+                    "mimetype": "text/tsv",
+                    "exists": true,
+                    "pattern": "^\\S+\\.(tsv)$",
+                    "description": "Crossref table from MetaCyc monomer identifier to MetaCyc reaction identifiers"
+                },
+                "kegg_kos_to_metacyc_reactions": {
+                    "type": "string",
+                    "format": "file-path",
+                    "mimetype": "text/tsv",
+                    "exists": true,
+                    "pattern": "^\\S+\\.(tsv)$",
+                    "description": "Crossref table from KEGG KO identifier to MetaCyc reaction identifiers"
+                },
+                "kegg_kos_to_ec_numbers": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "mimetype": "text/tsv",
+                    "pattern": "^\\S+\\.(tsv)$",
+                    "description": "Crossref table from KEGG KO identifier to EC numbers"
                 }
             }
         },

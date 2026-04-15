@@ -1,0 +1,7 @@
+{
+    "outdir": "results",
+    "metacyc_coverage_threshold": 50.0,
+    "metacyc_identity_threshold": 30.0,
+    "ecocyc_coverage_threshold": 80.0,
+    "ecocyc_identity_threshold": 80.0
+}

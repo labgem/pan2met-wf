@@ -13,7 +13,7 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { PAN2MET-WF  } from './workflows/pan2met-wf'
+include { PAN2MET  } from './workflows/pan2met'
 include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_nfcore_pan2met-wf_pipeline'
 include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_pan2met-wf_pipeline'
 /*
@@ -25,7 +25,7 @@ include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_pan2
 //
 // WORKFLOW: Run main analysis pipeline depending on type of input
 //
-workflow LABGEM_PAN2MET-WF {
+workflow LABGEM_PAN2MET {
 
     take:
     samplesheet // channel: samplesheet read in from --input
@@ -35,7 +35,7 @@ workflow LABGEM_PAN2MET-WF {
     //
     // WORKFLOW: Run pipeline
     //
-    PAN2MET-WF (
+    PAN2MET (
         samplesheet
     )
 }
