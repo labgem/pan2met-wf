@@ -15,7 +15,7 @@
                 "annotations": {
                     "type": "string",
                     "format": "text",
-                    "pattern": "^(ecocyc|metacyc|kofam|ncbifam)+(,(ecocyc|metacyc|kofam|ncbifam)+)*$",
+                    "pattern": "^(ecocyc|metacyc|kofamscan|ncbifam)+(,(ecocyc|metacyc|kofamscan|ncbifam)+)*$",
                     "description": "Selection of the annotation method to run to obtain Gene-Protein-Reaction associations",
                     "help_text": "You can select any subset of { ecocyc,metacyc,kofam,ncbifam } source of annotation for GPR. Provide a comma separated list.",
                     "fa_icon": "fas fa-gear"
@@ -124,6 +124,20 @@
                     "mimetype": "text/tsv",
                     "pattern": "^\\S+\\.(tsv)$",
                     "description": "Crossref table from KEGG KO identifier to EC numbers"
+                },
+                "kofam_db": {
+                    "type": "string",
+                    "format": "directory-path",
+                    "exists": true,
+                    "pattern": "^\\S+$",
+                    "description": "Path to the KOfam HMM database."
+                },
+                "ncbifam_db_hmm": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "pattern": "^\\S+\\.(hmm)$",
+                    "description": "Path to the NCBIfam HMM database HMM from PGAP HMM database, concatenated and compressed with HMMER hmmpress."
                 }
             }
         },

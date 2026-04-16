@@ -9,6 +9,16 @@
                         "branch": "master",
                         "git_sha": "96c57dfd98a0641886a67bd449fe33ee2ec0e374",
                         "installed_by": ["modules"]
+                    },
+                    "kofamscan": {
+                        "branch": "master",
+                        "git_sha": "96c57dfd98a0641886a67bd449fe33ee2ec0e374",
+                        "installed_by": ["modules"]
+                    },
+                    "seqkit/split2": {
+                        "branch": "master",
+                        "git_sha": "bf70cbf44b42ff4a81afcb673fcef604f5ef3a85",
+                        "installed_by": ["modules"]
                     }
                 }
             },

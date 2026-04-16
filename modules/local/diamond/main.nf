@@ -66,9 +66,12 @@ workflow DIAMOND_ALIGN_REFERENCE {
         coverage_threshold
         identity_threshold
     main:
-    diamond_db = DIAMOND_MAKEDB(reference_proteins)
-    DIAMOND_BLASTP(coverage_threshold, identity_threshold, proteins, diamond_db)
+    ch_versions = channel.empty()
+    DIAMOND_MAKEDB(reference_proteins)
+    ch_versions = ch_versions.mix(DIAMOND_MAKEDB.out.versions)
+    DIAMOND_BLASTP(coverage_threshold, identity_threshold, proteins, DIAMOND_MAKEDB.out.diamond_db)
+    ch_versions = ch_versions.mix(DIAMOND_BLASTP.out.versions)
     emit:
     tsv = DIAMOND_BLASTP.out.tsv
-    versions = DIAMOND_BLASTP.out.versions
+    versions = ch_versions
 }

@@ -32,18 +32,18 @@ process EXTRACT_FILE {
     """
 }
 
-workflow NCBIFAM_ASSOCIATE_EC {
+workflow NCBIFAM_BASED_ASSOCIATION {
     take:
     proteins
     
     main:
-    meta = null
+    meta = [ id: null ]
     write_align = false
     write_target = true
     write_domain = true
     write_pfam = true
     hmmdb = params.ncbifam_db
-    HMMER_HMMSCAN([meta, hmmdb, proteome, write_align, write_target, write_domain, write_pfam])
+    HMMER_HMMSCAN([meta, hmmdb, proteins, write_align, write_target, write_domain, write_pfam])
     EXTRACT_FILE(HMMER_HMMSCAN.out.domain_summary)
     JOIN_EC(EXTRACT_FILE.out.file, params.ncbifam_table)
     

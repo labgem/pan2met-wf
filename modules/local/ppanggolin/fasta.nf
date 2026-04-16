@@ -11,9 +11,10 @@ process PPANGGOLIN_FASTA_FAMILY_PROTEINS {
     path 'pangenome.h5'
 
     output:
-    path 'proteins/all_protein_families.faa', emit: pangenome_family_proteins
+    path 'proteins/all_protein_families.faa', emit: family_proteins
     path 'versions.yml', emit: versions
 
+    script:
     """
     ppanggolin fasta -p "pangenome.h5" --output ./proteins --prot_families all -f
 
@@ -24,15 +25,3 @@ process PPANGGOLIN_FASTA_FAMILY_PROTEINS {
     """
 }
 
-workflow PPANGGOLIN_EXTRACT_SEQUENCES {
-
-    take:
-    pangenome
-
-    main:
-    PPANGGOLIN_FASTA_FAMILY_PROTEINS(pangenome)
-
-    emit:
-    pangenome_family_proteins = PPANGGOLIN_FASTA_FAMILY_PROTEINS.out.pangenome_family_proteins
-    versions = PPANGGOLIN_FASTA_FAMILY_PROTEINS.out.versions
-}

@@ -8,10 +8,10 @@ process PPANGGOLIN_WORKFLOW {
         'biocontainers/ppanggolin:2.2.4--h0fa9677_0' }"
 
     input:
-    path(genomes_list)
+    path genomes_list
 
     output:
-    path("pangenome.h5"), emit: pangenome
+    path "pangenome.h5", emit: pangenome
     path "versions.yml", emit: versions
 
     script:

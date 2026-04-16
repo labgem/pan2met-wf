@@ -45,7 +45,7 @@ process REMOVE_ECOCYC_ECO_PREFIX {
 
 
 workflow CYC_BASED_ASSOCIATION {
-
+ 
     take:
     family_proteins
     reference_proteins
@@ -60,4 +60,5 @@ workflow CYC_BASED_ASSOCIATION {
 
     emit:
     asso = ASSOCIATE_PROTEIN_TO_REACTION.out.asso
+    versions = DIAMOND_ALIGN_REFERENCE.out.versions
 }

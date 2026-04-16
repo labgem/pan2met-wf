@@ -1,40 +1,5 @@
-
-process KOFAMSCAN_ANNOTATION {
-
-    label 'process_high'
-
-    conda 'bioconda::kofamscan==1.3.0'
-
-    /* container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/kofamscan:1.3.0--hdfd78af_2' :
-        'biocontainers/kofamscan:1.3.0--hdfd78af_2' }"
-     */ // Container raises an issue: how to mount the shared bank ?
-
-
-    input:
-    path fasta_chunk
-
-    output:
-    path "${fasta_chunk.baseName}.kofamscan.tsv", emit: tsv
-
-    shell:
-    """
-    exec_annotation \
-        --profile "${params.kofam_db}/profiles" \
-        -k "${params.kofam_db}/ko_list" \
-        --tmp-dir "./tmp" \
-        -o "${fasta_chunk.baseName}.kofamscan.tsv" \
-        --format=detail-tsv \
-        --create-alignment \
-        --cpu="${task.cpus}" \
-        "${fasta_chunk}"
-    
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        kofamscan: \$(exec_annotation --version | sed 's/exec_annotation //g')
-    END_VERSIONS
-    """
-}
+include { SEQKIT_SPLIT2 as SEQKIT_SPLIT_FASTA } from '../../../modules/nf-core/seqkit/split2/main'
+include { KOFAMSCAN } from '../../../modules/nf-core/kofamscan/main'
 
 process KOFAMSCAN_ASSOCIATION {
 
@@ -71,16 +36,35 @@ process CONCAT {
     """
 }
 
+process EXTRACT_FILE {
+    input:
+    tuple val(meta), path(file)
+    output:
+    path "$file", emit: file
+    script:
+    """
+    # Nothing to do.
+    """
+}
+
+
+
 workflow KOFAMSCAN_BASED_ASSOCIATION {
     take:
     proteins
 
     main:
-    proteins.splitFasta(by: params.chunkSize, file: true).set{ ch_fasta }
-    KOFAMSCAN_ANNOTATION(ch_fasta) | collect | CONCAT | KOFAMSCAN_ASSOCIATION
-
+    ch_versions = Channel.empty()
+    meta = [ id: null, single_end: true ]
+    ch_proteins = proteins.map{ prot -> [ meta, prot ] }
+    SEQKIT_SPLIT_FASTA(ch_proteins)
+    // ch_versions = ch_versions.mix(SEQKIT_SPLIT_FASTA.out.versions_seqkit) // TODO handle the special case of nf-core module seqkit version channel
+    ch_fasta = SEQKIT_SPLIT_FASTA.out.reads.transpose()
+    KOFAMSCAN(ch_fasta, params.kofam_profiles, params.kofam_ko_list)
+    ch_versions = ch_versions.mix(KOFAMSCAN.out.versions)
+    EXTRACT_FILE(KOFAMSCAN.out.tsv) | collect | CONCAT | KOFAMSCAN_ASSOCIATION
 
     emit:
     asso = KOFAMSCAN_ASSOCIATION.out.asso
-    versions = KOFAMSCAN_ANNOTATION.out.versions
+    versions = ch_versions
 }

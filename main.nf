@@ -28,7 +28,7 @@ include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_pan2
 workflow LABGEM_PAN2MET {
 
     take:
-    samplesheet // channel: samplesheet read in from --input
+    // samplesheet // channel: samplesheet read in from --input
 
     main:
 
@@ -36,7 +36,7 @@ workflow LABGEM_PAN2MET {
     // WORKFLOW: Run pipeline
     //
     PAN2MET (
-        samplesheet
+        // samplesheet
     )
 }
 /*
@@ -66,8 +66,8 @@ workflow {
     //
     // WORKFLOW: Run main workflow
     //
-    LABGEM_PAN2MET-WF (
-        PIPELINE_INITIALISATION.out.samplesheet
+    LABGEM_PAN2MET (
+        // PIPELINE_INITIALISATION.out.samplesheet
     )
     //
     // SUBWORKFLOW: Run completion tasks
