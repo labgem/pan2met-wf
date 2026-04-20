@@ -51,9 +51,9 @@ workflow PAN2MET {
         // Prepare the pangenome h5 running the PPanGGOLiN workflow
         //
         genomes = file(params.genomes)
-        pangenome = PPANGGOLIN_WORKFLOW(genomes).out.pangenome
+        PPANGGOLIN_WORKFLOW(genomes)
         ch_versions = ch_versions.mix(PPANGGOLIN_WORKFLOW.out.versions)
-        PPANGGOLIN_FASTA_FAMILY_PROTEINS(pangenome)
+        PPANGGOLIN_FASTA_FAMILY_PROTEINS(PPANGGOLIN_WORKFLOW.out.pangenome)
         ch_proteins = PPANGGOLIN_FASTA_FAMILY_PROTEINS.out.family_proteins
         ch_versions = ch_versions.mix(PPANGGOLIN_FASTA_FAMILY_PROTEINS.out.versions)
     } else if (params.pangenome) {
@@ -79,9 +79,6 @@ workflow PAN2MET {
             error "GPR annotation method not handled: " + method
         }
     }
-
-    print ch_proteins
-
     
     // Duplicate proteins channel into 4 channels, one for each available annotation source
     
