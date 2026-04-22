@@ -1,6 +1,6 @@
 
 process PPANGGOLIN_WORKFLOW {
-    label 'process_large'
+    label 'process_medium'
 
     conda "bioconda::ppanggolin=2.2.4"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
@@ -11,12 +11,12 @@ process PPANGGOLIN_WORKFLOW {
     path genomes_list
 
     output:
-    path "pangenome.h5", emit: pangenome
+    path "output/pangenome.h5", emit: pangenome
     path "versions.yml", emit: versions
 
     script:
     """
-    ppanggolin workflow --fasta "${genomes_list}" -o "${params.pgdb}"
+    ppanggolin workflow --fasta "${genomes_list}" -o "output"
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
