@@ -9,7 +9,7 @@ process DEEPKOALA_ASSOCIATION {
     shell:
     """
     # Convert the deepkoala output CSV to a TSV
-    sed 's/,/\t/g' "${deepkoala_output_csv}" > "deepkoala_output.tsv"
+    tail -n +2 "${deepkoala_output_csv}" | sed 's/,/\t/g' > "deepkoala_output.tsv"
     # Sort
     sort --field-separator=\$'\\t' --key=2 "deepkoala_output.tsv" > "deepkoala_sorted_by_ko.tsv" # Sort on KO
     sort --field-separator=\$'\\t' --key=1 "${params.kegg_kos_to_metacyc_reactions}" | cut -d\$'\\t' -f1,3 > "sorted_kegg_kos_to_metacyc_reactions.tsv"

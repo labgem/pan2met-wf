@@ -55,8 +55,9 @@ workflow KOFAMSCAN_BASED_ASSOCIATION {
 
     main:
     ch_versions = Channel.empty()
-    meta = [ id: null, single_end: true ]
-    ch_proteins = proteins.map{ prot -> [ meta, prot ] }
+    ch_proteins = proteins.map{
+        prot -> [[ id: prot.baseName, single_end: true ], prot ]
+    }
     SEQKIT_SPLIT_FASTA(ch_proteins)
     // ch_versions = ch_versions.mix(SEQKIT_SPLIT_FASTA.out.versions_seqkit) // TODO handle the special case of nf-core module seqkit version channel
     ch_fasta = SEQKIT_SPLIT_FASTA.out.reads.transpose()
