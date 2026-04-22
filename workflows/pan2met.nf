@@ -28,9 +28,9 @@ include { MERGE_ASSOCIATION_WITH_EC as MERGE_ASSOCIATION_DEEPKOALA } from "../su
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-// params.genomes = null;
-// params.pangenome = null;
-// params.proteome = null;
+params.genomes = null;
+params.pangenome = null;
+params.proteome = null;
 
 workflow PAN2MET {
 
@@ -38,7 +38,7 @@ workflow PAN2MET {
     // ch_samplesheet // channel: samplesheet read in from --input
     main:
 
-    ch_versions = channel.empty()
+    ch_versions = Channel.empty()
 
     // Extract the reference proteins from a pangenome
     // Or directly from a protein fasta file
