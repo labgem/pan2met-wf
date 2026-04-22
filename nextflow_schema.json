@@ -15,7 +15,7 @@
                 "annotations": {
                     "type": "string",
                     "format": "text",
-                    "pattern": "^(ecocyc|metacyc|kofamscan|ncbifam)+(,(ecocyc|metacyc|kofamscan|ncbifam)+)*$",
+                    "pattern": "^(ecocyc|metacyc|kofamscan|deepkoala|ncbifam)+(,(ecocyc|metacyc|kofamscan|deepkoala|ncbifam)+)*$",
                     "description": "Selection of the annotation method to run to obtain Gene-Protein-Reaction associations",
                     "help_text": "You can select any subset of { ecocyc,metacyc,kofam,ncbifam } source of annotation for GPR. Provide a comma separated list.",
                     "fa_icon": "fas fa-gear"
@@ -45,7 +45,7 @@
                     "format": "file-path",
                     "exists": true,
                     "mimetype": "text/fasta",
-                    "pattern": "^\\S+\\.(fasta|faa|fsa|faa)$",
+                    "pattern": "^\\S+\\.(fasta|fa|fsa|faa)$",
                     "description": "Path to protein sequences in FASTA format.",
                     "help_text": "Do not provide a --pangenome nor --genomes argument in this case.",
                     "fa_icon": "fas fa-file"

@@ -14,9 +14,13 @@ include { REMOVE_ECOCYC_ECO_PREFIX } from "../subworkflows/local/pan2met/cyc.nf"
 include { CYC_BASED_ASSOCIATION as METACYC_BASED_ASSOCIATION } from "../subworkflows/local/pan2met/cyc.nf"
 include { CYC_BASED_ASSOCIATION as ECOCYC_BASED_ASSOCIATION } from "../subworkflows/local/pan2met/cyc.nf"
 include { KOFAMSCAN_BASED_ASSOCIATION } from "../modules/local/kofamscan"
+include { DEEPKOALA_BASED_ASSOCIATION } from "../modules/local/deepkoala"
 include { NCBIFAM_BASED_ASSOCIATION } from "../modules/local/ncbifam"
-include { MERGE_ASSOCIATION as MERGE_ECOCYC_METACYC } from "../subworkflows/local/pan2met"
-include { MERGE_ASSOCIATION_WITH_EC as MERGE_CYC_KOFAMSCAN } from "../subworkflows/local/pan2met"
+include { MERGE_ASSOCIATION as MERGE_ASSOCIATION_METACYC } from "../subworkflows/local/pan2met"
+include { MERGE_ASSOCIATION as MERGE_ASSOCIATION_ECOCYC } from "../subworkflows/local/pan2met"
+include { MERGE_ASSOCIATION as MERGE_ASSOCIATION_NCBIFAM } from "../subworkflows/local/pan2met"
+include { MERGE_ASSOCIATION_WITH_EC as MERGE_ASSOCIATION_KOFAMSCAN } from "../subworkflows/local/pan2met"
+include { MERGE_ASSOCIATION_WITH_EC as MERGE_ASSOCIATION_DEEPKOALA } from "../subworkflows/local/pan2met"
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -73,7 +77,7 @@ workflow PAN2MET {
 
     // Prepare the association file using only the selected annotation sources.
     annotation_sources = params.annotations.split(",")
-    available_sources = ["ecocyc", "metacyc", "kofamscan", "ncbifam"]
+    available_sources = ["ecocyc", "metacyc", "kofamscan", "deepkoala", "ncbifam"]
     for (method in annotation_sources) {
         if (!available_sources.contains(method)) {
             error "GPR annotation method not handled: " + method
@@ -113,19 +117,58 @@ workflow PAN2MET {
         ch_versions = ch_versions.mix(KOFAMSCAN_BASED_ASSOCIATION.out.versions)
     }
 
+    if (annotation_sources.contains("deepkoala")) {
+        DEEPKOALA_BASED_ASSOCIATION(ch_proteins)
+        // no versions channel here.
+    }
+
     if (annotation_sources.contains("ncbifam")) {
         NCBIFAM_BASED_ASSOCIATION(ch_proteins)
         ch_versions = ch_versions.mix(NCBIFAM_BASED_ASSOCIATION.out.versions)
     }
 
-    // TODO: make merges depend on selected annotation source 
-    MERGE_ECOCYC_METACYC(ECOCYC_BASED_ASSOCIATION.out.asso, METACYC_BASED_ASSOCIATION.out.asso)
-    MERGE_CYC_KOFAMSCAN(MERGE_ECOCYC_METACYC.out.asso, KOFAMSCAN_BASED_ASSOCIATION.out.asso)
-
+    // Merge all sources of Protein - Reaction (or EC) associations
+    ch_asso = null
+    if (annotation_sources.contains("ecocyc")) {
+        ch_asso = ECOCYC_BASED_ASSOCIATION.out.asso
+    }
+    if (annotation_sources.contains("metacyc")) {
+        if (ch_asso) {
+            MERGE_ASSOCIATION_METACYC(ch_asso, METACYC_BASED_ASSOCIATION.out.asso)
+            ch_asso = MERGE_ASSOCIATION_METACYC.out.asso
+        } else {
+            ch_asso = METACYC_BASED_ASSOCIATION.out.asso
+        }
+    }
+    if (annotation_sources.contains("kofamscan")) {
+        if (ch_asso) {
+            MERGE_ASSOCIATION_KOFAMSCAN(ch_asso, KOFAMSCAN_BASED_ASSOCIATION.out.asso)
+        } else {
+            ch_asso = KOFAMSCAN_BASED_ASSOCIATION.out.asso
+        }
+    }
+    if (annotation_sources.contains("deepkoala")) {
+        if (ch_asso) {
+            MERGE_ASSOCIATION_DEEPKOALA(ch_asso, DEEPKOALA_BASED_ASSOCIATION.out.asso)
+            ch_asso = MERGE_ASSOCIATION_DEEPKOALA.out.asso
+        } else {
+            ch_asso = DEEPKOALA_BASED_ASSOCIATION.out.asso
+        }
+    }
+    if (annotation_sources.contains("ncbifam")) {
+        if (ch_asso) {
+            MERGE_ASSOCIATION_NCBIFAM(ch_asso, NCBIFAM_BASED_ASSOCIATION.out.asso)
+            ch_asso = MERGE_ASSOCIATION_NCBIFAM.out.asso
+        } else {
+            ch_asso = NCBIFAM_BASED_ASSOCIATION.out.asso
+        }
+    }
+    
     //
     // Run metabolism prediction
     //
     // INFER_METABOLIC_NETWORK(MERGE_CYC_KOFAMSCAN.out.asso)
+
     // ch_versions = ch_versions.mix(INFER_METABOLIC_NETWORK.out.versions)
  
     //

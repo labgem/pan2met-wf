@@ -1,0 +1,12 @@
+name: deepkoala
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - pip:
+      - numpy==1.26.3
+      - pandas==2.2.2
+      - torch==2.4.1  
+      - tqdm==4.66.4
+      - "--editable=git+https://github.com/zhaoxi120/deepkoala.git#egg=deepkoala"
