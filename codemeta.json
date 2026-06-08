@@ -1,0 +1,39 @@
+{
+    "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+    "type": "SoftwareSourceCode",
+    "applicationCategory": "Bioinformatics",
+    "codeRepository": "git+https://github.com/labgem/pan2met-wf.git",
+    "contributor": [
+        {
+            "id": "https://orcid/0009-0001-0971-497X",
+            "type": "Person",
+            "affiliation": {
+                "type": "Organization",
+                "name": "LABGeM, Génomique Métabolique, CEA, Genoscope, Institut François Jacob, Université d’Évry, Université Paris-Saclay, CNRS"
+            },
+            "email": "samuel.ortion@genoscope.cns.fr",
+            "familyName": "Ortion",
+            "givenName": "Samuel"
+        },
+        {
+            "type": "schema:Role",
+            "contributor": "https://orcid/0009-0001-0971-497X",
+            "schema:roleName": "Developer",
+            "schema:startDate": "2026-03-23"
+        }
+    ],
+    "dateCreated": "2026-03-23",
+    "description": "A nextflow workflow to identify gene-protein-reaction associations from a set of genomes, a pangenome or a proteome to be used in a pathway prediction algorithm.",
+    "keywords": [
+        "metabolism",
+        "pangenome"
+    ],
+    "license": "https://spdx.org/licenses/MIT",
+    "name": "pan2met-wf",
+    "programmingLanguage": [
+        "nextflow",
+        "awk",
+        "Python"
+    ],
+    "issueTracker": "https://github.com/labgem/pan2met-wf/issues/"
+}
