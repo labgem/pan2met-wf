@@ -10,6 +10,47 @@
 
 ## Pipeline tools
 
+- [Diamond](https://doi.org/10.1038/s41592-021-01101-x)
+
+  > Buchfink B, Reuter K, Drost HG. Sensitive protein alignments at tree-of-life scale using DIAMOND. Nature Methods 18, 366–368 (2021). doi: 10.1038/s41592-021-01101-x.
+
+- [KofamScan](https://doi.org/10.1093/bioinformatics/btz859)
+
+  > Aramaki T, Blanc-Mathieu R, Endo H, Ohkubo K, Kanehisa M, Goto S, Ogata H. KofamKOALA: KEGG ortholog assignment based on profile HMM and adaptive score threshold. Bioinformatics 2019 Nov 19. pii: btz859. doi: 10.1093/bioinformatics/btz859.
+
+- [DeepKoala](https://doi.org/10.64898/2026.01.07.698072)
+  > Yu, Z., Meng, L., Nguyen, C. H., Mamitsuka, H., Kanehisa, M., & Ogata, H. (2026). DeepKOALA: A Fast and Accurate Deep Learning Framework for KEGG Orthology Assignment (p. 2026.01.07.698072). bioRxiv. doi: 10.64898/2026.01.07.698072.
+
+- [HMMer](http://hmmer.org/)
+
+  > Eddy, S. R. (n.d.). HMMER: biosequence analysis using profile hidden Markov models.
+
+- [Pathway-Tools](https://doi.org/10.1093/bib/bbz104)
+
+  > Karp P, Midford P, Bilington R, Kothari A, Krummenacker M, Latendresse M, Ong W K, Subhraveti P, Caspi R, Fulcher C, Keseler I, Paley S. Pathway Tools version 23.0 update: software for pathway/genome informatics and systems biology. Briefings in Bioinformatics 2019 Dec 08. doi: 10.1093/bib/bbz104.
+
+## Pipeline reference data
+
+- [MetaCyc](https://doi.org/10.1093/nar/gkp875)
+
+  > Caspi, R., Altman, T., Dale, J. M., Dreher, K., Fulcher, C. A., Gilham, F., Kaipa, P., Karthikeyan, A. S., Kothari, A., Krummenacker, M., Latendresse, M., Mueller, L. A., Paley, S., Popescu, L., Pujar, A., Shearer, A. G., Zhang, P., & Karp, P. D. (2010). The MetaCyc database of metabolic pathways and enzymes and the BioCyc collection of pathway/genome databases. Nucleic Acids Research, 38(suppl_1), D473–D479. doi: 10.1093/nar/gkp875
+
+- [EcoCyc](https://doi.org/10.1093/nar/28.1.56)
+  
+  > Karp, P. D., Riley, M., Saier, M., Paulsen, I. T., Paley, S. M., & Pellegrini-Toole, A. (2000). The EcoCyc and MetaCyc databases. Nucleic Acids Research, 28(1), 56–59. doi: 10.1093/nar/28.1.56
+
+- [KOfam and KEGG](https://doi.org/10.1093/nar/gkae909)
+  
+  > Kanehisa, M., Furumichi, M., Sato, Y., Matsuura, Y., & Ishiguro-Watanabe, M. (2025). KEGG: Biological systems database as a model of the real world. Nucleic Acids Research, 53(D1), D672–D677. doi: 10.1093/nar/gkae909
+
+- [NCBIfam from NCBI Prokaryotic Genome Annotation Pipeline (PGAP)](https://doi.org/10.1093/nar/gkaa1105)
+
+  > Haft, D. H., Loftus, B. J., Richardson, D. L., Yang, F., Eisen, J. A., Paulsen, I. T., & White, O. (2001). TIGRFAMs: A protein family resource  for the functional identification of proteins. Nucleic Acids Research, 29(1), 41–43. doi: 10.1093/nar/29.1.41
+
+  > Li, W., O’Neill, K. R., Haft, D. H., DiCuccio, M., Chetvernin, V., Badretdin, A., Coulouris, G., Chitsaz, F., Derbyshire, M. K., Durkin, A. S., Gonzales, N. R., Gwadz, M., Lanczycki, C. J., Song, J. S., Thanki, N., Wang, J., Yamashita, R. A., Yang, M., Zheng, C., … Thibaud-Nissen, F. (2021). RefSeq: Expanding the Prokaryotic Genome Annotation Pipeline reach with protein family model curation. Nucleic Acids Research, 49(D1), D1020–D1028. doi: 10.1093/nar/gkaa1105
+
+
+
 ## Software packaging/containerisation tools
 
 - [Anaconda](https://anaconda.com)
