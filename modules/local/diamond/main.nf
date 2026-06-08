@@ -52,7 +52,10 @@ process DIAMOND_BLASTP {
         --query "${input_fasta}" --db "${diamond_db}" \
         --outfmt 6 qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore \
         --out "${input_fasta.baseName}.diamond.blastp.tsv" \
-        --ultra-sensitive --query-cover "${coverage_threshold}" --subject-cover "${identity_threshold}"
+        --ultra-sensitive \
+        --query-cover "${coverage_threshold}" \
+        --subject-cover "${coverage_threshold}" \
+        --id "${identity_threshold}"
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
