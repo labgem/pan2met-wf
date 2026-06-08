@@ -95,7 +95,7 @@ def write_pgdb_reaction_presence_absence_by_strain(
 ):
     file_name = pgdb_name + "_reaction_presence_absence.tsv"
 
-    _pgdb_reactions = get_reactions_in_pangenome(pgdb)
+    pgdb_reactions = get_reactions_in_pangenome(pgdb)
     reactions_with_families = get_reactions_with_families(pgdb)
 
     with open(file_name, "w") as pgdb_write:
@@ -298,7 +298,7 @@ def read_functional_module_file(module_file_name):
 
     modulefile = open(module_file_name, "r")
 
-    _header = modulefile.readline().rstrip()
+    header = modulefile.readline().rstrip()
 
     for line in modulefile:
         (moduleid, famid) = line.rstrip().split("\t")

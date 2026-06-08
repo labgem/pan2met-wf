@@ -4,9 +4,9 @@ process DEEPKOALA_ASSOCIATION {
     path(deepkoala_output_csv)
 
     output:
-    path("${deepkoala_output_csv.baseName}_metacyc_ec.tsv"), emit: asso
+    path("${deepkoala_output_csv.baseName}_metacyc_ec.asso"), emit: asso
 
-    shell:
+    script:
     """
     # Convert the deepkoala output CSV to a TSV
     tail -n +2 "${deepkoala_output_csv}" | sed 's/,/\t/g' > "deepkoala_output.tsv"
@@ -17,7 +17,7 @@ process DEEPKOALA_ASSOCIATION {
     # Left join to add MetaCyc reactions
     join -t \$'\\t' -1 2 -2 1 -a 1 "deepkoala_sorted_by_ko.tsv" "sorted_kegg_kos_to_metacyc_reactions.tsv" > "deepkoala_metacyc.tsv"
     # Left join to add EC-numbers
-    join -t \$'\\t' -1 1 -2 1 -a 1 "deepkoala_metacyc.tsv" "sorted_kegg_kos_to_ec_numbers.tsv" | cut -d\$'\\t' -f2,3,4 > "${deepkoala_output_csv.baseName}_metacyc_ec.tsv"
+    join -t \$'\\t' -1 1 -2 1 -a 1 "deepkoala_metacyc.tsv" "sorted_kegg_kos_to_ec_numbers.tsv" | cut -d\$'\\t' -f2,3,4 > "${deepkoala_output_csv.baseName}_metacyc_ec.asso"
     """
 }
 

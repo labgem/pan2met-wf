@@ -6,6 +6,11 @@ This document describes the output produced by the pipeline.
 
 The directories listed below will be created in the results directory after the pipeline has finished. All paths are relative to the top-level results directory.
 
+- `association/` : a folder with TSV files associating protein families or proteins to the reaction identifiers
+  - `metacyc_based.asso` (when `metacyc` in selected methods) : a two columns TSV file with column 1: protein family identifier, and column 2: a MetaCyc reaction identifier
+  - `ecocyc_based.asso` (when `ecocyc` in selected methods): a two columns TSV file with column 1: protein family identifier, and column 2: a MetaCyc reaction identifier 
+  - 
+
 <!-- TODO nf-core: Write this documentation describing your workflow's output -->
 
 ## Pipeline overview

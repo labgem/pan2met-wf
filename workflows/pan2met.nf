@@ -38,7 +38,7 @@ workflow PAN2MET {
     // ch_samplesheet // channel: samplesheet read in from --input
     main:
 
-    ch_versions = Channel.empty()
+    ch_versions = channel.empty()
 
     // Extract the reference proteins from a pangenome
     // Or directly from a protein fasta file
@@ -70,7 +70,7 @@ workflow PAN2MET {
         ch_versions = ch_versions.mix(PPANGGOLIN_FASTA_FAMILY_PROTEINS.out.versions)
     } else if (params.proteome) {
         // By pass the pangenome reference protein extraction step
-        ch_proteins = Channel.fromPath(params.proteome)
+        ch_proteins = channel.fromPath(params.proteome)
     } else {
         error "No input provided. Please set one of --genomes, --pangenome or --proteome input parameters."
     }
@@ -78,7 +78,7 @@ workflow PAN2MET {
     // Prepare the association file using only the selected annotation sources.
     annotation_sources = params.annotations.split(",")
     available_sources = ["ecocyc", "metacyc", "kofamscan", "deepkoala", "ncbifam"]
-    for (method in annotation_sources) {
+    annotation_sources.each { method ->
         if (!available_sources.contains(method)) {
             error "GPR annotation method not handled: " + method
         }
@@ -174,7 +174,7 @@ workflow PAN2MET {
     //
     // Collate and save software versions
     //
-    // def topic_versions = Channel.topic("versions")
+    // def topic_versions = channel.topic("versions")
     //    .distinct()
     //    .branch { entry ->
     //        versions_file: entry instanceof Path

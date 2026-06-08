@@ -4,20 +4,21 @@ include { DIAMOND_ALIGN_REFERENCE } from "../../../modules/local/diamond"
 process ASSOCIATE_PROTEIN_TO_REACTION {
 
     input:
-    path 'monomer_to_reactions.tsv'
-    path 'blastp.tsv'
+    path "monomer_to_reactions.tsv"
+    path "blastp.tsv"
 
     output:
-    path 'protein_reaction.asso', emit: asso
+    path '*.asso', emit: asso
 
-    shell:
+    script:
+    def prefix = task.ext.prefix ?: "protein_reaction"
     """
     awk -F "\\t" -v OFS="\\t" \
-        -f "$baseDir/bin/hash_join.awk" \
+        -f "${workflow.projectDir}/bin/hash_join.awk" \
         -v key1=1 -v value1=2 \
         -v key2=2 -v value2=1 \
             "monomer_to_reactions.tsv" \
-        <(grep -v "^#" 'blastp.tsv')  > "protein_reaction.asso"
+        <(grep -v "^#" "blastp.tsv")  > "${prefix}.asso"
     """
 }
 

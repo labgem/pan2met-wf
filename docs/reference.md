@@ -75,8 +75,3 @@ cat hmm_PGAP.HMM/*.hmm pgap.hmm
 hmmpress pgap.hmm
 ```
 
-## Pfam HMM database
-
-Pfam database is another protein families HMM profile database.
-
-

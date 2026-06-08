@@ -7,19 +7,19 @@ process KOFAMSCAN_ASSOCIATION {
     path kofamscan_tsv
 
     output:
-    path "kofamscan_metacyc_ec.tsv", emit: asso
+    path "kofamscan_metacyc_ec.asso", emit: asso
 
-    shell:
+    script:
     """
-    awk -f "${baseDir}/bin/kofam_first.awk" "${kofamscan_tsv}" > "kofamscan_first.tsv"
-    awk -f "${baseDir}/bin/merge_cell.awk" "kofamscan_first.tsv" > "kofamscan_uniq_id.tsv"
+    awk -f "${workflow.projectDir}/bin/kofam_first.awk" "${kofamscan_tsv}" > "kofamscan_first.tsv"
+    awk -f "${workflow.projectDir}/bin/merge_cell.awk" "kofamscan_first.tsv" > "kofamscan_uniq_id.tsv"
     sort --field-separator=\$'\\t' --key=2 "kofamscan_uniq_id.tsv" > "kofamscan_uniq_id_sorted_by_ko.tsv"
     sort --field-separator=\$'\\t' --key=1 "${params.kegg_kos_to_metacyc_reactions}" | cut -d\$'\\t' -f1,3 > "sorted_kegg_kos_to_metacyc_reactions.tsv"
     sort --field-separator=\$'\\t' --key=1 "${params.kegg_kos_to_ec_numbers}" > "sorted_kegg_kos_to_ec_numbers.tsv"
     # Left join to add MetaCyc reactions
     join -t \$'\\t' -1 2 -2 1 -a 1 "kofamscan_uniq_id_sorted_by_ko.tsv" "sorted_kegg_kos_to_metacyc_reactions.tsv" > "kofamscan_metacyc.tsv"
     # Left join to add EC-numbers
-    join -t \$'\\t' -1 1 -2 1 -a 1 "kofamscan_metacyc.tsv" "sorted_kegg_kos_to_ec_numbers.tsv" | cut -d\$'\\t' -f2,3,4 > "kofamscan_metacyc_ec.tsv"
+    join -t \$'\\t' -1 1 -2 1 -a 1 "kofamscan_metacyc.tsv" "sorted_kegg_kos_to_ec_numbers.tsv" | cut -d\$'\\t' -f2,3,4 > "kofamscan_metacyc_ec.asso"
     """
 }
 
@@ -54,7 +54,7 @@ workflow KOFAMSCAN_BASED_ASSOCIATION {
     proteins
 
     main:
-    ch_versions = Channel.empty()
+    ch_versions = channel.empty()
     ch_proteins = proteins.map{
         prot -> [[ id: prot.baseName, single_end: true ], prot ]
     }

@@ -16,6 +16,7 @@ process DIAMOND_MAKEDB {
     path 'diamond.dmnd', emit: diamond_db
     path 'versions.yml', emit: versions
     
+    script:
     """
     diamond makedb --threads ${task.cpus} --db "diamond" --in "reference.faa"
 
@@ -45,6 +46,7 @@ process DIAMOND_BLASTP {
     path "${input_fasta.baseName}.diamond.blastp.tsv", emit: tsv
     path 'versions.yml', emit: versions
 
+    script:
     """
     diamond blastp --threads ${task.cpus} --header \
         --query "${input_fasta}" --db "${diamond_db}" \

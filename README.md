@@ -13,7 +13,8 @@
 ## Introduction
 
 **labgem/pan2met-wf** is a bioinformatics pipeline that predicts metabolic network of procaryotes at pangenome scale.
-It takes, either a set of genomes, a [PPanGGOLiN](https://github.com/labgem/PPanGGOLiN) pangenome, or directly a proteome in FASTA format and predict what metabolic pathways forms the metabolism of the organism.
+It takes, either a set of genomes, a [PPanGGOLiN](https://github.com/labgem/PPanGGOLiN) pangenome, or directly a proteome in FASTA format and aims to predict metabolic pathways that constitutes the metabolism of the organism.
+To do so **pan2met-wf** proposes a choice of enzyme function annotation sources based on sequence homology.
 
 <!-- TODO nf-core:
    Complete this sentence with a 2-3 sentence summary of what types of data the pipeline ingests, a brief overview of the
@@ -32,7 +33,7 @@ A typical workflow boils down into these main steps:
 - Align MetaCyc proteins with the gene families reference proteins ([diamond blastp](https://github.com/bbuchfink/diamond)); associate the found homolog proteins with MetaCyc reaction identifiers.
 - Align EcoCyc proteins with the gene families reference proteins ([diamond blastp](https://github.com/bbuchfink/diamond)); associate the found homolog proteins with MetaCyc reaction identifiers.
 - Scan the gene families reference proteins for KEGG KOFam ([KOFamScan](https://github.com/takaram/kofam_scan)); associate the KEGG KO identified, with MetaCyc reaction identifiers, or, if none found, EC-numbers.
-- Merge EcoCyc-, MetaCyc- and KOFam-based MetaCyc reaction identifiers annotations. Keep at first, the EcoCyc-based annotation. If none found, keep the MetaCyc-based annotation. Again, if none found, keep the MetaCyc reaction identifiers obtained through KOFamScan. In last resort, if no MetaCyc reaction identifier could be found, and there exist a EC-number associated with the protein, keep this EC-number.7
+- Merge EcoCyc-, MetaCyc- and KOfam-based MetaCyc reaction identifiers annotations. Keep at first, the EcoCyc-based annotation. If none found, keep the MetaCyc-based annotation. Again, if none found, keep the MetaCyc reaction identifiers obtained through KOFamScan. In last resort, if no MetaCyc reaction identifier could be found, and there exist a EC-number associated with the protein, keep this EC-number.7
 
 ## Usage
 
@@ -63,7 +64,7 @@ Now, you can run the pipeline using:
 ```bash
 nextflow run labgem/pan2met-wf \
    -profile <docker/singularity/.../institute> \
-   --input samplesheet.csv \
+   <--genomes genomes.tsv/--pangenome pangenome.h5/--proteome proteome.fasta> \
    --outdir <OUTDIR>
 ```
 
@@ -72,7 +73,7 @@ nextflow run labgem/pan2met-wf \
 
 ## Credits
 
-labgem/pan2met-wf was originally written by Samuel Ortion.
+labgem/pan2met-wf was originally written by Samuel Ortion, based on a work by Guilhem Royer.
 
 We thank the following people for their extensive assistance in the development of this pipeline:
 

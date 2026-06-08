@@ -11,7 +11,7 @@ process JOIN_EC {
     output:
     path "${ncbifam_domtbl_gz.baseName}_with_ec.tsv", emit: asso
 
-    shell:
+    script:
     """
     cut -d\$'\\t' -f1,14 "${hmm_pgap_tsv}" > "ncbifam_to_ec.tsv"
     sort --field-separator=\$'\\t' --key=1 "ncbifam_to_ec.tsv" > "ncbifam_to_ec_sorted.tsv"
@@ -27,7 +27,7 @@ process EXTRACT_FILE {
     tuple val(meta), path(file)
     output:
     path("${file}"), emit: file
-    shell:
+    script:
     """
     """
 }
