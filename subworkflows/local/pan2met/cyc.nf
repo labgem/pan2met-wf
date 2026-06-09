@@ -40,7 +40,7 @@ process REMOVE_ECOCYC_ECO_PREFIX {
     path "formatted_ecocyc_monomers.fasta", emit: fasta
     script:
     """
-    sed 's/>gnl|ECO|/>/g' "${ecocyc_monomers_fasta}"  > "formatted_ecocyc_monomers.fasta"
+    sed 's/>gnl|ECOLI|/>/g' "${ecocyc_monomers_fasta}"  > "formatted_ecocyc_monomers.fasta"
     """
 }
 
