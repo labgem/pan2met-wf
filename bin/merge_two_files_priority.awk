@@ -58,7 +58,7 @@ BEGIN {
 }
 
 function add(key, reactions) {
-    if (reactions == "NA")
+    if (reactions == "NA" || reactions == "")
         return
     if (key in reaction_array) {
         reactions = union_reactions(reactions, reaction_array[key])
@@ -69,7 +69,8 @@ function add(key, reactions) {
 # Read the first file
 NR == FNR {
     add($1, $2)
-    priorit_file[$1] = 1
+    priority_file[$1] = 1
+    next
 }
 
 # Read the second file

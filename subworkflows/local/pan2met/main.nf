@@ -2,6 +2,9 @@
 /*
 /**/
 
+/* Merge associations from 1.tsv with associations from 2.tsv
+/* keeping association from 2.tsv only when there is no association for column 1 key in 1.tsv
+/* */
 process MERGE_ASSOCIATION {
     input:
     path "1.tsv"
