@@ -1,6 +1,19 @@
 
 include { DIAMOND_ALIGN_REFERENCE } from "../../../modules/local/diamond"
 
+process BEST_DIAMOND_HIT {
+    input:
+    path "blastp.tsv"
+    output:
+    path "best_hit.blastp.tsv", emit: tsv
+
+    script:
+    """
+    sort --key=1 --field-separator=\$'\\t' "blastp.tsv" > "./sorted_blastp.tsv"
+    awk -f "${workflow.projectDir}/bin/diamond_blastp_best_hit.awk" "./sorted_blastp.tsv" > "./best_hit.blastp.tsv"
+    """
+}
+
 process ASSOCIATE_PROTEIN_TO_REACTION {
 
     input:
@@ -57,7 +70,8 @@ workflow CYC_BASED_ASSOCIATION {
     main:
 
     DIAMOND_ALIGN_REFERENCE(reference_proteins, family_proteins, coverage_threshold, identity_threshold)
-    ASSOCIATE_PROTEIN_TO_REACTION(monomer_to_reactions, DIAMOND_ALIGN_REFERENCE.out.tsv)
+    BEST_DIAMOND_HIT(DIAMOND_ALIGN_REFERENCE.out.tsv)
+    ASSOCIATE_PROTEIN_TO_REACTION(monomer_to_reactions, BEST_DIAMOND_HIT.out.tsv)
 
     emit:
     asso = ASSOCIATE_PROTEIN_TO_REACTION.out.asso

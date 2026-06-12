@@ -9,6 +9,12 @@ Initial release of labgem/pan2met-wf, created with the [nf-core](https://nf-co.r
 
 ### `Added`
 
+- support for diamond blastp against MetaCyc and EcoCyc reference proteins
+  - using best hit with given coverage and identity minimum threshold
+- support for KOFamScan
+- support for DeepKoala
+- support for NCBIfam
+
 ### `Fixed`
 
 ### `Dependencies`
